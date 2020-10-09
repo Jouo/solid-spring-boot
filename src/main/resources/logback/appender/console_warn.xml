@@ -1,0 +1,29 @@
+<included>
+
+    <property resource="logback/logback.properties"/>
+
+    <appender name="${CONSOLE_WARN}" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+        <discriminator>
+            <key>${KEY_FILE}</key>
+            <defaultValue>UNKNOWN</defaultValue>
+        </discriminator>
+
+        <sift>
+
+            <appender name="console-warn-${service}" class="ch.qos.logback.core.ConsoleAppender">
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>WARN</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <Pattern>${CONSOLE_WARN_PATTERN}</Pattern>
+                </layout>
+            </appender>
+
+        </sift>
+
+    </appender>
+
+</included>

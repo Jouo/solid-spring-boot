@@ -1,0 +1,42 @@
+<included>
+
+    <property resource="logback/logback.properties" />
+
+    <appender name="${FILE_INFO}" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+        <discriminator>
+            <key>${KEY_FILE}</key>
+            <defaultValue>UNKNOWN</defaultValue>
+        </discriminator>
+
+        <sift>
+
+            <appender name="file-info-${entity}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+                <prudent>true</prudent>
+
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>INFO</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+                    <fileNamePattern>${DIRECTORY_FILE_INFO}/${NAME_FILE_INFO}</fileNamePattern>
+                    <totalSizeCap>${TOTALSIZECAP_INFO}</totalSizeCap>
+                    <maxHistory>${MAXHISTORY_INFO}</maxHistory>
+
+                </rollingPolicy>
+
+                <encoder>
+                    <pattern>${FILE_PATTERN_INFO}</pattern>
+                </encoder>
+
+            </appender>
+
+        </sift>
+
+    </appender>
+
+</included>

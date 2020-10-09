@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <!-- Properties & Appenders -->
+    <property resource="logback/logback.properties"/>
+    <include resource="logback/appender/spring_console.xml"/>
+    <include resource="logback/appender/console_debug.xml"/>
+    <include resource="logback/appender/console_warn.xml"/>
+    <include resource="logback/appender/file_info.xml"/>
+    <include resource="logback/appender/file_error.xml"/>
+
+    <logger name="com.web.services.aop" level="DEBUG" additivity="true">
+        <appender-ref ref="${CONSOLE_DEBUG}"/>
+        <appender-ref ref="${CONSOLE_WARN}"/>
+<!--        <appender-ref ref="${FILE_INFO}"/>-->
+<!--        <appender-ref ref="${FILE_ERROR}"/>-->
+    </logger>
+
+    <logger name="org.springframework" level="info">
+        <appender-ref ref="${SPRING_CONSOLE}"/>
+    </logger>
+
+
+</configuration>

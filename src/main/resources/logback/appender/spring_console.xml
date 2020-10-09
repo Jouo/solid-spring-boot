@@ -1,0 +1,14 @@
+<included>
+
+    <property resource="logback/logback.properties"/>
+
+    <appender name="${SPRING_CONSOLE}" class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${SPRING_PATTERN}</Pattern>
+        </layout>
+
+    </appender>
+
+
+</included>

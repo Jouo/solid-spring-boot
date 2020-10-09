@@ -1,0 +1,42 @@
+<included>
+
+    <property resource="logback/logback.properties" />
+
+    <appender name="${FILE_ERROR}" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+        <discriminator>
+            <key>${KEY_FILE}</key>
+            <defaultValue>UNKNOWN</defaultValue>
+        </discriminator>
+
+        <sift>
+
+            <appender name="file-error-${entity}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+                <prudent>true</prudent>
+
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>ERROR</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+                    <fileNamePattern>${DIRECTORY_FILE_ERROR}/${NAME_FILE_ERROR}</fileNamePattern>
+                    <totalSizeCap>${TOTALSIZECAP_ERROR}</totalSizeCap>
+                    <maxHistory>${MAXHISTORY_ERROR}</maxHistory>
+
+                </rollingPolicy>
+
+                <encoder>
+                    <pattern>${FILE_PATTERN_ERROR}</pattern>
+                </encoder>
+
+            </appender>
+
+        </sift>
+
+    </appender>
+
+</included>
