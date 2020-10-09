@@ -23,47 +23,48 @@ There are also some mock and integration tests with JUnit and Mockito, so you ca
 6. The jar is found under `target/`, run it with `java -jar services-1.0.jar`
 
 ### Additional Information
-In the following sections I will briefly explain how this project works, just a heads up: names shown like `this` refers to an interface, therefore you can make your own implementations of it and anything in **bold** refers to a class.
+In the following sections I will briefly explain how this project works, just a heads up: names shown like `this` refer to an interface, therefore you can make your own implementations, and anything in **bold** refers to a class.
 
 ####  AOP
-The **AOPSettings** contain the directory paths of the classes that you wish to log and pointcuts that by default will trigger on any method, **Pointcut** will store the execution paths in public variables, while **AOP** implements the logging logic by making use of `LogUtils`.
+The **AOPSettings** has the directory paths of the classes that you wish to log, and pointcuts that by default will trigger on any method, **Pointcut** will store the execution paths in public static variables, while **AOP** implements the logging logic by making use of `LogUtils`.
 
 Now for the configuration itself you have to change the logback settings found in the resources:
 
 - To enable saving the logs to files simply uncomment the setting from resources/logback.xml
-- The file path and other settings can be found in resources/logback.properties
+- The file path and other settings can be found in resources/logback/logback.properties
 
 #### ORM
 An API class is used as a bridge between the user input and the Entity class, now that we have that out of the way:
 
 - Each Entity has an API
 - Each API has an Utility
-- Each DAO extend a base DAO
+- Each DAO extends a base DAO
 - Most Services extend a base Service
-- And the Services that do extend, require all of the afore mentioned
+- And the Services that do extend, require all of the aforementioned
 
 It may sound tricky at first but it's actually super straight forward once you look at the code, it's really flexible and keeps everything as DRY as possible.
 
 #### REST
-Aside from the REST controllers (endpoints of your application) you will find some utilities, the **HttpRequestHandler** takes care of any `HttpException` thrown by the application (among other things).
+Aside from the REST controllers which are the endpoints of your application, you will find some utilities, the **HttpRequestHandler** takes care of any `HttpException` thrown by the application (among other errors).
 
-There are two factories, one is used to generate `BindingExceptionResponse` which are returned to the user upon triggering an invalid input, the other factory will either return the requested resource or an `HttpExceptionReponse` that contains information about the http status returned along a message.
+There are two factories, one is used to generate `BindingExceptionResponse` which are returned to the user upon triggering an invalid input, it outlines any wrong values found in the request, the other factory will either return the requested resource or an `HttpExceptionReponse` that displays information about the http status returned along a custom message.
 
 #### Security
-Attempting to authenticate to request the JWT needed to interact with the application will either return the valid request or trigger the `FailureListener` which will keep track of failed attempts and IP ban you once necessary.
+To interact with the application you will need a JWT in the header of the request, which you can get from the authentication endpoint, unsuccessful authentication attempts will be tracked by the `FailureListener`, after a certain amount of failures it will IP ban the requests for a period of time.
 
-The **SecurityConfiguration** contains the configuration for Spring Security, things like role based permissions and user authentication through a JWT filter.
+The **SecurityConfiguration** enclose the configuration for Spring Security, things like role based permissions, user authentication through a JWT filter and BCrypt for the passwords.
 
 #### Utility
 This one is divided in two directories: general and orm, the former stores utility classes that are used all around the application, while the latter is used specifically for the orm, you can read once again the ORM section.
 
-Generally speaking, these utility classes contain logic used in the application, each and every of them implement an interface, so don't be scared to make your own classes!
+Generally speaking, these utility classes contain logic used in the application, each and every one of them implement an interface, so don't be scared to make your own classes!
 
 #### Validator
-Nothing but custom hibernate validators for the ORM APIs.
+Has nothing else but custom hibernate validators for the ORM APIs.
 
 #### The Setting class
-You may have noticed there's a **Setting** class outside of the afore mentioned directories, think of it as a bridge between the custom user values placed in application.properties and the classes themselves.
+You may have noticed there's a **Setting** class outside of the aforementioned directories, think of it as a bridge between the custom user values placed in application.properties and the classes themselves.
 
 This class will load the values and store each of them in static variables, from there, other classes can simply access those values through this class, without having to inject the value themselves, everything is in one place.
+
 
